@@ -91,6 +91,21 @@ realistic device fleet for both, **48 hours of historical sensor
 readings**, alerts raised from real threshold breaches, and a few
 published blog posts. Safe to re-run at any time.
 
+**The live/deployed database ships clean, without this demo data** —
+seeding is opt-in for local development and demos only. To remove the
+seeded demo accounts/devices/readings/alerts/subscriptions/blog posts
+at any point (e.g. before a real launch), run:
+
+```bash
+python manage.py clear_demo_data
+```
+
+This keeps the `admin` superuser (so you aren't locked out of
+`/admin/`) and the `SubscriptionPlan` rows (real pricing-tier
+configuration, not fake data) — everything else seeded goes. Pass
+`--include-admin` to remove the seeded superuser too, once you've
+created your own.
+
 ### Run it
 
 ```bash
