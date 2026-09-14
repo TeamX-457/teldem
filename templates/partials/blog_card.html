@@ -1,0 +1,13 @@
+{% load static %}
+<a href="{{ post.get_absolute_url }}" class="card flex flex-col gap-3 transition-shadow hover:shadow-card-hover">
+  <div class="flex h-36 items-center justify-center rounded-lg bg-teldem-blue-50">
+    {% if post.cover_image %}
+      <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" class="h-full w-full rounded-lg object-cover">
+    {% else %}
+      {% include "partials/icons/sense.html" with cls="h-8 w-8 text-teldem-blue" %}
+    {% endif %}
+  </div>
+  <span class="text-xs font-medium text-ink-muted">{{ post.published_at|date:"M j, Y" }}</span>
+  <h3 class="text-base font-semibold text-ink">{{ post.title }}</h3>
+  <p class="text-sm text-ink-muted line-clamp-2">{{ post.excerpt|default:post.body|truncatewords:22 }}</p>
+</a>

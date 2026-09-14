@@ -1,0 +1,18 @@
+{% extends "app_base.html" %}
+{% block title %}Remove {{ device.name }} — {{ SITE_NAME }}{% endblock %}
+{% block app_title %}Remove device{% endblock %}
+
+{% block app_content %}
+<div class="mx-auto max-w-lg card">
+  <h2 class="text-lg font-semibold text-ink">Remove "{{ device.name }}"?</h2>
+  <p class="mt-2 text-sm text-ink-muted">
+    This will permanently delete the device along with its reading and
+    alert history. This action cannot be undone.
+  </p>
+  <form method="post" class="mt-6 flex gap-3">
+    {% csrf_token %}
+    <button type="submit" class="btn-danger">Yes, remove it</button>
+    <a href="{% url 'devices:detail' device.pk %}" class="btn-outline">Cancel</a>
+  </form>
+</div>
+{% endblock %}

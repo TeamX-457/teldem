@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}For Business — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+
+<section class="section bg-teldem-blue-700 text-white">
+  <div class="container-teldem max-w-3xl">
+    <span class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-teldem-gold">For Business</span>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+      Multi-location monitoring, built for how your team actually works.
+    </h1>
+    <p class="mt-5 text-lg text-white/70">
+      TELDEM AI gives operations teams a single dashboard across every
+      site, device and shift — with role-based access so the right people
+      see the right alerts.
+    </p>
+    <div class="mt-8 flex gap-3">
+      <a href="{% url 'marketing:contact' %}?interest=b2b" class="btn-accent">Talk to Sales</a>
+      <a href="{% url 'marketing:pricing' %}" class="btn bg-white/10 text-white hover:bg-white/20">View Pricing</a>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-white">
+  <div class="container-teldem">
+    <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">Built for teams like yours</h2>
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {% include "partials/segment_card.html" with title="Restaurants & Kitchens" copy="Protect cold storage and gas supply across every kitchen, with alerts routed to the right shift lead." %}
+      {% include "partials/segment_card.html" with title="Hotels" copy="Monitor mini-bars, kitchens and back-of-house storage across floors and properties from one dashboard." %}
+      {% include "partials/segment_card.html" with title="Schools & Campuses" copy="Keep cafeterias, labs and dorms safe with motion, smoke and access monitoring." %}
+      {% include "partials/segment_card.html" with title="Offices" copy="Arm and disarm shared spaces on a schedule, with a clean audit trail of every event." %}
+      {% include "partials/segment_card.html" with title="Residential Estates" copy="Give facility managers a live view of gate houses, generators and common areas." %}
+      {% include "partials/segment_card.html" with title="Logistics & Fleet" copy="Track vehicle motion and impact events across your delivery fleet in real time." %}
+      {% include "partials/segment_card.html" with title="Retailers" copy="Protect cold-chain stock and store premises across multiple branches." %}
+      {% include "partials/segment_card.html" with title="Gas & Energy Companies" copy="Offer smart monitoring as a value-added service on top of your existing supply relationships." %}
+    </div>
+  </div>
+</section>
+
+<section class="section bg-surface">
+  <div class="container-teldem grid gap-10 lg:grid-cols-2">
+    <div>
+      <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">What's included for business accounts</h2>
+      <ul class="mt-6 space-y-4">
+        <li class="flex gap-3">
+          {% include "partials/icons/check.html" with cls="h-5 w-5 flex-shrink-0 text-teldem-green mt-0.5" %}
+          <div><p class="font-medium text-ink">Team accounts with roles</p><p class="text-sm text-ink-muted">Owner, Admin and Viewer roles so access matches responsibility.</p></div>
+        </li>
+        <li class="flex gap-3">
+          {% include "partials/icons/check.html" with cls="h-5 w-5 flex-shrink-0 text-teldem-green mt-0.5" %}
+          <div><p class="font-medium text-ink">Multi-location dashboards</p><p class="text-sm text-ink-muted">See every site's devices and alerts in one place, or drill into one.</p></div>
+        </li>
+        <li class="flex gap-3">
+          {% include "partials/icons/check.html" with cls="h-5 w-5 flex-shrink-0 text-teldem-green mt-0.5" %}
+          <div><p class="font-medium text-ink">Bulk device onboarding</p><p class="text-sm text-ink-muted">Roll out across dozens of devices with volume pricing.</p></div>
+        </li>
+        <li class="flex gap-3">
+          {% include "partials/icons/check.html" with cls="h-5 w-5 flex-shrink-0 text-teldem-green mt-0.5" %}
+          <div><p class="font-medium text-ink">Dedicated support &amp; installation</p><p class="text-sm text-ink-muted">On-site setup and a named account manager for Business and Enterprise plans.</p></div>
+        </li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 class="text-base font-semibold text-ink">Talk to our team</h3>
+      <p class="mt-2 text-sm text-ink-muted">Tell us about your sites and devices — we'll follow up with a tailored plan.</p>
+      <a href="{% url 'marketing:contact' %}?interest=b2b" class="btn-primary mt-5 w-full">Request a Business Demo</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

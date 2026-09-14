@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-surface text-ink-soft font-sans antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading text-ink;
+  }
+}
+
+@layer components {
+  .container-teldem {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
+  }
+
+  .section {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full bg-teldem-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-teldem-blue;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+  .btn-primary {
+    @apply btn bg-teldem-blue text-white hover:bg-teldem-blue-600 focus-visible:ring-teldem-blue;
+  }
+  .btn-accent {
+    @apply btn bg-teldem-gold text-ink hover:bg-teldem-gold-600 focus-visible:ring-teldem-gold;
+  }
+  .btn-outline {
+    @apply btn border border-ink/15 bg-white text-ink hover:border-teldem-blue hover:text-teldem-blue;
+  }
+  .btn-ghost {
+    @apply btn text-teldem-blue hover:bg-teldem-blue-50;
+  }
+  .btn-sm {
+    @apply px-3.5 py-2 text-xs;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-600;
+  }
+
+  .card {
+    @apply rounded-xl2 border border-ink/5 bg-white p-6 shadow-card;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+  .badge-blue { @apply badge bg-teldem-blue-50 text-teldem-blue; }
+  .badge-green { @apply badge bg-teldem-green-50 text-teldem-green-700; }
+  .badge-gold { @apply badge bg-teldem-gold-50 text-teldem-gold-600; }
+  .badge-gray { @apply badge bg-ink/5 text-ink-muted; }
+  .badge-red { @apply badge bg-red-50 text-red-700; }
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-medium text-ink;
+  }
+  .field-input {
+    @apply w-full rounded-lg border border-ink/15 bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-muted focus:border-teldem-blue focus:outline-none focus:ring-2 focus:ring-teldem-blue/20;
+  }
+  .field-help {
+    @apply mt-1 text-xs text-ink-muted;
+  }
+  .field-error {
+    @apply mt-1 text-xs font-medium text-red-600;
+  }
+
+  .nav-link {
+    @apply text-sm font-medium text-ink-soft transition-colors hover:text-teldem-blue;
+  }
+
+  .app-nav-link {
+    @apply flex-shrink-0 whitespace-nowrap rounded-lg px-3.5 py-2.5 text-sm font-medium text-ink-soft transition-colors hover:bg-surface-alt hover:text-ink;
+  }
+  .app-nav-link-active {
+    @apply bg-teldem-blue-50 text-teldem-blue hover:bg-teldem-blue-50 hover:text-teldem-blue;
+  }
+
+  .stat-tile {
+    @apply card flex flex-col gap-1;
+  }
+
+  .table-teldem {
+    @apply w-full text-left text-sm;
+  }
+  .table-teldem th {
+    @apply border-b border-ink/10 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted;
+  }
+  .table-teldem td {
+    @apply border-b border-ink/5 px-4 py-3 text-ink-soft;
+  }
+}

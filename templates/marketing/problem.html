@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}The Problem — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+
+<section class="section bg-white">
+  <div class="container-teldem max-w-3xl">
+    <span class="eyebrow">The problem</span>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+      You only find out something went wrong after it's already a loss.
+    </h1>
+    <p class="mt-5 text-lg text-ink-muted">
+      Across Nigerian homes and businesses, the things that matter most —
+      food, fuel, vehicles, and physical spaces — are monitored reactively,
+      if they're monitored at all. By the time you notice, the damage is done.
+    </p>
+  </div>
+</section>
+
+<section class="section bg-surface">
+  <div class="container-teldem grid gap-6 sm:grid-cols-2">
+    <div class="card">
+      {% include "partials/icons/fridge.html" with cls="h-6 w-6 text-teldem-blue" %}
+      <h3 class="mt-4 text-lg font-semibold">Food spoilage nobody caught in time</h3>
+      <p class="mt-2 text-sm text-ink-muted">
+        A fridge running warm overnight, a freezer door left ajar — small
+        failures that quietly destroy stock, whether it's a household's
+        weekly shop or a restaurant's entire cold chain.
+      </p>
+    </div>
+    <div class="card">
+      {% include "partials/icons/gas.html" with cls="h-6 w-6 text-teldem-gold-600" %}
+      <h3 class="mt-4 text-lg font-semibold">Gas that runs out at the worst moment</h3>
+      <p class="mt-2 text-sm text-ink-muted">
+        Without a way to see remaining levels, cooking gas runs dry mid-meal
+        at home, or mid-service in a commercial kitchen — always at the
+        least convenient time.
+      </p>
+    </div>
+    <div class="card">
+      {% include "partials/icons/vehicle.html" with cls="h-6 w-6 text-teldem-blue" %}
+      <h3 class="mt-4 text-lg font-semibold">Vehicles left vulnerable while unattended</h3>
+      <p class="mt-2 text-sm text-ink-muted">
+        Theft and damage often happen in the gaps — a delivery van
+        overnight, a car in a compound — with no record of what happened
+        or a way to be alerted in the moment.
+      </p>
+    </div>
+    <div class="card">
+      {% include "partials/icons/home.html" with cls="h-6 w-6 text-teldem-green" %}
+      <h3 class="mt-4 text-lg font-semibold">Homes and offices with no situational awareness</h3>
+      <p class="mt-2 text-sm text-ink-muted">
+        Motion, smoke, and access events go unnoticed without a system
+        watching continuously — leaving people to rely on luck rather
+        than information.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-white">
+  <div class="container-teldem max-w-3xl">
+    <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">Why existing solutions fall short</h2>
+    <ul class="mt-6 space-y-4">
+      <li class="flex gap-3">
+        <span class="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600">&times;</span>
+        <div>
+          <p class="font-medium text-ink">Single-purpose by design</p>
+          <p class="text-sm text-ink-muted">A separate gadget for every problem, none of them talking to each other.</p>
+        </div>
+      </li>
+      <li class="flex gap-3">
+        <span class="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600">&times;</span>
+        <div>
+          <p class="font-medium text-ink">Expensive to deploy at scale</p>
+          <p class="text-sm text-ink-muted">Enterprise IoT systems price out households and small businesses alike.</p>
+        </div>
+      </li>
+      <li class="flex gap-3">
+        <span class="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600">&times;</span>
+        <div>
+          <p class="font-medium text-ink">Hard to use</p>
+          <p class="text-sm text-ink-muted">Dashboards built for engineers, not for the person who actually needs the answer.</p>
+        </div>
+      </li>
+      <li class="flex gap-3">
+        <span class="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600">&times;</span>
+        <div>
+          <p class="font-medium text-ink">Data without meaning</p>
+          <p class="text-sm text-ink-muted">Raw numbers and graphs, with no interpretation of what they mean or what to do next.</p>
+        </div>
+      </li>
+    </ul>
+
+    <div class="mt-10">
+      <a href="{% url 'marketing:solution' %}" class="btn-primary">See how TELDEM solves this &rarr;</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

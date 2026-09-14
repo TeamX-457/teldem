@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}Contact / Get a Demo — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+
+<section class="section bg-white">
+  <div class="container-teldem grid gap-12 lg:grid-cols-2">
+    <div>
+      <span class="eyebrow">Get a demo</span>
+      <h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">Let's talk about your space.</h1>
+      <p class="mt-5 text-lg text-ink-muted">
+        Whether it's one fridge at home or twenty sites across a business,
+        tell us what you're looking to protect and a TELDEM specialist
+        will follow up within one business day.
+      </p>
+
+      <div class="mt-10 space-y-5 text-sm">
+        <div class="flex gap-3">
+          {% include "partials/icons/inform.html" with cls="h-5 w-5 text-teldem-blue flex-shrink-0" %}
+          <div>
+            <p class="font-medium text-ink">Email</p>
+            <a href="mailto:hello@teldem.ai" class="text-ink-muted hover:text-teldem-blue">hello@teldem.ai</a>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          {% include "partials/icons/act.html" with cls="h-5 w-5 text-teldem-blue flex-shrink-0" %}
+          <div>
+            <p class="font-medium text-ink">Phone</p>
+            <a href="tel:+2340000000000" class="text-ink-muted hover:text-teldem-blue">+234 (0) 000 000 0000</a>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          {% include "partials/icons/home.html" with cls="h-5 w-5 text-teldem-blue flex-shrink-0" %}
+          <div>
+            <p class="font-medium text-ink">Office</p>
+            <p class="text-ink-muted">Lagos, Nigeria</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <form method="post" novalidate class="space-y-5">
+        {% csrf_token %}
+
+        <div>
+          <label class="field-label" for="{{ form.name.id_for_label }}">Full name</label>
+          {% render_field form.name class="field-input" placeholder="Your name" %}
+          {% for error in form.name.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label class="field-label" for="{{ form.email.id_for_label }}">Email</label>
+            {% render_field form.email class="field-input" placeholder="you@example.com" %}
+            {% for error in form.email.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+          </div>
+          <div>
+            <label class="field-label" for="{{ form.phone.id_for_label }}">Phone (optional)</label>
+            {% render_field form.phone class="field-input" placeholder="+234..." %}
+          </div>
+        </div>
+
+        <div>
+          <span class="field-label">I'm interested as a...</span>
+          <div class="flex gap-4">
+            {% for radio in form.interest_type %}
+              <label class="flex items-center gap-2 text-sm text-ink-soft">
+                {{ radio.tag }} {{ radio.choice_label }}
+              </label>
+            {% endfor %}
+          </div>
+          {% for error in form.interest_type.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+
+        <div>
+          <label class="field-label" for="{{ form.company_name.id_for_label }}">Company / Organization (if applicable)</label>
+          {% render_field form.company_name class="field-input" placeholder="Optional" %}
+        </div>
+
+        <div>
+          <label class="field-label" for="{{ form.message.id_for_label }}">What would you like to monitor?</label>
+          {% render_field form.message class="field-input" placeholder="Tell us about your space, devices, or business needs..." %}
+          {% for error in form.message.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+
+        <button type="submit" class="btn-primary w-full">Send message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

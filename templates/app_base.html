@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="border-b border-ink/5 bg-white">
+  <div class="container-teldem flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        {% if request.user.primary_organization %}{{ request.user.primary_organization.name }}{% else %}Household account{% endif %}
+      </p>
+      <h1 class="mt-1 text-2xl font-bold tracking-tight text-ink">{% block app_title %}Dashboard{% endblock %}</h1>
+    </div>
+    <div class="flex gap-2">{% block app_actions %}{% endblock %}</div>
+  </div>
+</div>
+
+<div class="container-teldem grid gap-8 py-8 lg:grid-cols-[220px_1fr]">
+  <aside class="lg:sticky lg:top-20 lg:h-fit">
+    <nav class="flex gap-1 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
+      {% url 'dashboard:home' as url_dashboard %}
+      {% url 'devices:list' as url_devices %}
+      {% url 'alerts:inbox' as url_alerts %}
+      {% url 'billing:overview' as url_billing %}
+      {% url 'accounts:profile' as url_profile %}
+      {% url 'accounts:team' as url_team %}
+
+      <a href="{{ url_dashboard }}" class="app-nav-link {% if request.path == url_dashboard %}app-nav-link-active{% endif %}">Overview</a>
+      <a href="{{ url_devices }}" class="app-nav-link {% if url_devices in request.path %}app-nav-link-active{% endif %}">Devices</a>
+      <a href="{{ url_alerts }}" class="app-nav-link {% if url_alerts in request.path %}app-nav-link-active{% endif %}">Alerts</a>
+      <a href="{{ url_billing }}" class="app-nav-link {% if url_billing in request.path %}app-nav-link-active{% endif %}">Billing</a>
+      <a href="{{ url_profile }}" class="app-nav-link {% if url_profile in request.path %}app-nav-link-active{% endif %}">Profile</a>
+      {% if request.user.primary_organization %}
+        <a href="{{ url_team }}" class="app-nav-link {% if url_team in request.path %}app-nav-link-active{% endif %}">Team</a>
+      {% endif %}
+    </nav>
+  </aside>
+
+  <div class="min-w-0">
+    {% block app_content %}{% endblock %}
+  </div>
+</div>
+{% endblock %}

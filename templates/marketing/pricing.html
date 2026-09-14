@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}Pricing — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+
+<section class="section bg-white">
+  <div class="container-teldem max-w-3xl text-center mx-auto">
+    <span class="eyebrow">Pricing</span>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">Simple pricing, built for how you'll actually use it</h1>
+    <p class="mt-5 text-lg text-ink-muted">
+      A one-time device cost plus a monthly AI subscription — no hidden
+      fees. Business and Enterprise plans add team accounts, multi-location
+      dashboards, and dedicated support.
+    </p>
+  </div>
+</section>
+
+<section class="pb-20 bg-white">
+  <div class="container-teldem grid gap-6 lg:grid-cols-4">
+    {% for plan in plans %}
+      <div class="card flex flex-col {% if plan.is_featured %}border-2 border-teldem-blue shadow-card-hover{% endif %}">
+        {% if plan.is_featured %}
+          <span class="badge-blue mb-3 self-start">Most popular</span>
+        {% endif %}
+        <h3 class="text-lg font-bold text-ink">{{ plan.name }}</h3>
+        <p class="mt-1 text-sm text-ink-muted">{{ plan.tagline }}</p>
+
+        <div class="mt-5">
+          {% if plan.is_contact_sales %}
+            <p class="text-3xl font-bold text-ink">Custom</p>
+            <p class="text-xs text-ink-muted">Volume &amp; partnership pricing</p>
+          {% else %}
+            <p class="text-3xl font-bold text-ink">&#8358;{{ plan.price_monthly|floatformat:0|intcomma }}<span class="text-sm font-medium text-ink-muted">/mo</span></p>
+            <p class="text-xs text-ink-muted">+ &#8358;{{ plan.price_device_from|floatformat:0|intcomma }} device, one-time</p>
+          {% endif %}
+        </div>
+
+        <ul class="mt-6 flex-1 space-y-2.5 text-sm text-ink-soft">
+          {% if plan.max_devices %}
+            <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-4 w-4 text-teldem-green flex-shrink-0" %} Up to {{ plan.max_devices }} device{{ plan.max_devices|pluralize }}</li>
+          {% else %}
+            <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-4 w-4 text-teldem-green flex-shrink-0" %} Unlimited devices</li>
+          {% endif %}
+          {% for feature in plan.features %}
+            <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-4 w-4 text-teldem-green flex-shrink-0" %} {{ feature }}</li>
+          {% endfor %}
+        </ul>
+
+        <div class="mt-6">
+          {% if plan.is_contact_sales %}
+            <a href="{% url 'marketing:contact' %}?interest=b2b" class="btn-outline w-full">Talk to Sales</a>
+          {% elif user.is_authenticated %}
+            <a href="{% url 'billing:subscribe' plan.slug %}" class="btn-primary w-full">Choose {{ plan.name }}</a>
+          {% else %}
+            <a href="{% url 'accounts:signup' %}" class="btn-primary w-full">Get Started</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="container-teldem mt-14 max-w-3xl rounded-xl2 border border-ink/5 bg-surface p-6 text-sm text-ink-muted">
+    <p class="font-semibold text-ink">Also available:</p>
+    <p class="mt-2">
+      Installation &amp; support packages for businesses that need on-site
+      setup, and partnership / licensing agreements for hardware
+      distributors and system integrators. <a href="{% url 'marketing:business' %}" class="font-medium text-teldem-blue hover:underline">Learn more &rarr;</a>
+    </p>
+  </div>
+</section>
+
+{% endblock %}

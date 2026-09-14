@@ -1,0 +1,49 @@
+{% extends "app_base.html" %}
+{% load device_extras %}
+{% block title %}Devices — {{ SITE_NAME }}{% endblock %}
+{% block app_title %}Devices{% endblock %}
+{% block app_actions %}
+  <a href="{% url 'devices:register' %}" class="btn-primary btn-sm">+ Register device</a>
+{% endblock %}
+
+{% block app_content %}
+{% if devices %}
+  <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+    {% for device in devices %}
+      <a href="{% url 'devices:detail' device.pk %}" class="card flex flex-col gap-4 transition-shadow hover:shadow-card-hover">
+        <div class="flex items-start justify-between">
+          <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-teldem-blue-50 text-teldem-blue">
+            {% with icon=device.device_type|device_icon %}
+              {% include "partials/icons/"|add:icon|add:".html" with cls="h-5 w-5" %}
+            {% endwith %}
+          </div>
+          {% if device.status == "online" %}
+            <span class="badge-green">Online</span>
+          {% elif device.status == "offline" %}
+            <span class="badge-gray">Offline</span>
+          {% else %}
+            <span class="badge-gold">Pending</span>
+          {% endif %}
+        </div>
+        <div>
+          <h3 class="font-semibold text-ink">{{ device.name }}</h3>
+          <p class="text-sm text-ink-muted">{{ device.type_label }} &middot; {{ device.location_label|default:"No location set" }}</p>
+        </div>
+        <div class="flex items-center justify-between text-xs text-ink-muted">
+          <span>{{ device.owner_display }}</span>
+          {% if device.active_alert_count %}
+            <span class="badge-red">{{ device.active_alert_count }} alert{{ device.active_alert_count|pluralize }}</span>
+          {% else %}
+            <span class="badge-green">No alerts</span>
+          {% endif %}
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="card text-center">
+    <p class="text-ink-muted">You haven't registered any devices yet.</p>
+    <a href="{% url 'devices:register' %}" class="btn-primary mt-5 inline-flex">Register your first device</a>
+  </div>
+{% endif %}
+{% endblock %}

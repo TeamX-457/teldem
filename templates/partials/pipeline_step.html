@@ -1,0 +1,10 @@
+<div class="rounded-xl2 border border-white/10 bg-white/5 p-6">
+  <div class="flex items-center justify-between">
+    <span class="text-xs font-mono text-teldem-gold">{{ step }}</span>
+    <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 text-teldem-gold">
+      {% include "partials/icons/"|add:icon|add:".html" with cls="h-5 w-5" %}
+    </div>
+  </div>
+  <h3 class="mt-4 text-base font-semibold text-white">{{ title }}</h3>
+  <p class="mt-1.5 text-sm text-white/60">{{ copy }}</p>
+</div>

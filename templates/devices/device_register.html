@@ -1,0 +1,41 @@
+{% extends "app_base.html" %}
+{% load widget_tweaks %}
+{% block title %}Register a device — {{ SITE_NAME }}{% endblock %}
+{% block app_title %}Register a device{% endblock %}
+
+{% block app_content %}
+<div class="mx-auto max-w-xl">
+  <form method="post" class="card space-y-6">
+    {% csrf_token %}
+    <div>
+      <span class="field-label">Device type</span>
+      <div class="grid grid-cols-2 gap-3">
+        {% for radio in form.device_type %}
+          <label class="flex cursor-pointer items-center gap-2 rounded-lg border border-ink/15 px-4 py-3 text-sm has-[:checked]:border-teldem-blue has-[:checked]:bg-teldem-blue-50">
+            {{ radio.tag }} {{ radio.choice_label }}
+          </label>
+        {% endfor %}
+      </div>
+      {% for error in form.device_type.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+    </div>
+
+    <div>
+      <label class="field-label" for="{{ form.name.id_for_label }}">Device name</label>
+      {% render_field form.name class="field-input" placeholder="e.g. Kitchen Fridge" %}
+      {% for error in form.name.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+    </div>
+
+    <div>
+      <label class="field-label" for="{{ form.location_label.id_for_label }}">Location</label>
+      {% render_field form.location_label class="field-input" placeholder="e.g. Main Kitchen" %}
+    </div>
+
+    <p class="field-help">
+      No physical hardware needed to try this out — pairing is simulated
+      instantly so you can start seeing readings and alerts right away.
+    </p>
+
+    <button type="submit" class="btn-primary w-full">Pair device</button>
+  </form>
+</div>
+{% endblock %}

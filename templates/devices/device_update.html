@@ -1,0 +1,29 @@
+{% extends "app_base.html" %}
+{% load widget_tweaks %}
+{% block title %}Edit {{ device.name }} — {{ SITE_NAME }}{% endblock %}
+{% block app_title %}Edit {{ device.name }}{% endblock %}
+
+{% block app_content %}
+<div class="mx-auto max-w-xl">
+  <form method="post" class="card space-y-6">
+    {% csrf_token %}
+    <div>
+      <label class="field-label" for="{{ form.name.id_for_label }}">Device name</label>
+      {% render_field form.name class="field-input" %}
+    </div>
+    <div>
+      <label class="field-label" for="{{ form.location_label.id_for_label }}">Location</label>
+      {% render_field form.location_label class="field-input" %}
+    </div>
+    {% if device.is_security_capable %}
+      <label class="flex items-center gap-2 text-sm text-ink-soft">
+        {{ form.is_armed }} Armed
+      </label>
+    {% endif %}
+    <div class="flex gap-3">
+      <button type="submit" class="btn-primary">Save changes</button>
+      <a href="{% url 'devices:detail' device.pk %}" class="btn-outline">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

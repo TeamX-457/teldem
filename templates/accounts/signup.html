@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}Sign up — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+
+<section class="section bg-surface">
+  <div class="container-teldem flex justify-center">
+    <div class="w-full max-w-xl">
+      <div class="text-center">
+        <span class="eyebrow">Get started</span>
+        <h1 class="mt-4 text-3xl font-bold tracking-tight">Create your TELDEM account</h1>
+        <p class="mt-2 text-sm text-ink-muted">Set up in minutes. No hardware required to explore the platform.</p>
+      </div>
+
+      <form method="post" novalidate class="card mt-8 space-y-5">
+        {% csrf_token %}
+
+        <div>
+          <span class="field-label">I'm signing up as...</span>
+          <div class="grid grid-cols-2 gap-3">
+            {% for radio in form.account_type %}
+              <label class="flex cursor-pointer items-center gap-2 rounded-lg border border-ink/15 px-4 py-3 text-sm has-[:checked]:border-teldem-blue has-[:checked]:bg-teldem-blue-50">
+                {{ radio.tag }} {{ radio.choice_label }}
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label class="field-label" for="{{ form.first_name.id_for_label }}">First name</label>
+            {% render_field form.first_name class="field-input" %}
+          </div>
+          <div>
+            <label class="field-label" for="{{ form.last_name.id_for_label }}">Last name</label>
+            {% render_field form.last_name class="field-input" %}
+          </div>
+        </div>
+
+        <div>
+          <label class="field-label" for="{{ form.username.id_for_label }}">Username</label>
+          {% render_field form.username class="field-input" %}
+          {% for error in form.username.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label class="field-label" for="{{ form.email.id_for_label }}">Email</label>
+            {% render_field form.email class="field-input" %}
+            {% for error in form.email.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+          </div>
+          <div>
+            <label class="field-label" for="{{ form.phone_number.id_for_label }}">Phone (optional)</label>
+            {% render_field form.phone_number class="field-input" %}
+          </div>
+        </div>
+
+        <div id="org-fields" class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label class="field-label" for="{{ form.organization_name.id_for_label }}">Organization name</label>
+            {% render_field form.organization_name class="field-input" %}
+            {% for error in form.organization_name.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+          </div>
+          <div>
+            <label class="field-label" for="{{ form.organization_industry.id_for_label }}">Industry</label>
+            {% render_field form.organization_industry class="field-input" %}
+          </div>
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label class="field-label" for="{{ form.password1.id_for_label }}">Password</label>
+            {% render_field form.password1 class="field-input" %}
+            {% for error in form.password1.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+          </div>
+          <div>
+            <label class="field-label" for="{{ form.password2.id_for_label }}">Confirm password</label>
+            {% render_field form.password2 class="field-input" %}
+            {% for error in form.password2.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+          </div>
+        </div>
+
+        {% if form.non_field_errors %}
+          <p class="field-error">{{ form.non_field_errors.0 }}</p>
+        {% endif %}
+
+        <button type="submit" class="btn-primary w-full">Create account</button>
+        <p class="text-center text-sm text-ink-muted">
+          Already have an account? <a href="{% url 'accounts:login' %}" class="font-medium text-teldem-blue hover:underline">Log in</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var radios = document.querySelectorAll('input[name="account_type"]');
+    var orgFields = document.getElementById("org-fields");
+    function sync() {
+      var checked = document.querySelector('input[name="account_type"]:checked');
+      var isOrg = checked && checked.value === "organization";
+      orgFields.classList.toggle("hidden", !isOrg);
+    }
+    radios.forEach(function (r) { r.addEventListener("change", sync); });
+    sync();
+  })();
+</script>
+
+{% endblock %}

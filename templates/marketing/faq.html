@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}FAQ — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+
+<section class="section bg-white">
+  <div class="container-teldem max-w-3xl">
+    <span class="eyebrow">FAQ</span>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">Frequently asked questions</h1>
+
+    <div class="mt-10 divide-y divide-ink/5">
+      {% include "partials/faq_item.html" with q="How does the TELDEM device connect to the platform?" a="Each device pairs with your account using a unique pairing code generated at setup — no technical configuration required. Once paired, it starts sending readings on a regular schedule." %}
+      {% include "partials/faq_item.html" with q="Do I need a subscription to use a device?" a="The device is a one-time purchase; the AI subscription covers real-time monitoring, alerting and history. Plans range from Starter to Enterprise depending on how many devices and locations you need." %}
+      {% include "partials/faq_item.html" with q="Can I use TELDEM for both my home and my business?" a="Yes. Individual and organization accounts are separate, so you can run a household account and a business account independently, or invite team members to a shared organization." %}
+      {% include "partials/faq_item.html" with q="What happens when a critical alert fires?" a="Critical alerts (like a smoke detection or gas level crossing a safe threshold) are surfaced immediately in your dashboard and inbox, with email notification to account admins." %}
+      {% include "partials/faq_item.html" with q="Is installation included?" a="Business and Enterprise plans include installation and support. Starter and Home plans are self-install, with guided setup in the app." %}
+      {% include "partials/faq_item.html" with q="Can I arm and disarm devices remotely?" a="Yes — vehicle and home/office devices support arm/disarm directly from your dashboard, similar to a security system." %}
+    </div>
+  </div>
+</section>
+
+<section class="section bg-surface text-center">
+  <div class="container-teldem">
+    <h2 class="text-xl font-bold tracking-tight">Still have questions?</h2>
+    <div class="mt-5"><a href="{% url 'marketing:contact' %}" class="btn-primary">Contact Us</a></div>
+  </div>
+</section>
+
+{% endblock %}

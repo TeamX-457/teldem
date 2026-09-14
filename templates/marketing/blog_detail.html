@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+
+<article class="section bg-white">
+  <div class="container-teldem max-w-3xl">
+    <a href="{% url 'marketing:blog_list' %}" class="btn-ghost btn-sm -ml-3">&larr; Back to blog</a>
+    <p class="mt-4 text-xs font-semibold uppercase tracking-wide text-ink-muted">{{ post.published_at|date:"F j, Y" }} · {{ post.author_name }}</p>
+    <h1 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">{{ post.title }}</h1>
+
+    {% if post.cover_image %}
+      <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" class="mt-8 w-full rounded-xl2 object-cover">
+    {% endif %}
+
+    <div class="prose prose-sm mt-8 max-w-none text-ink-soft leading-relaxed">
+      {{ post.body|linebreaks }}
+    </div>
+  </div>
+</article>
+
+{% if other_posts %}
+<section class="section bg-surface">
+  <div class="container-teldem">
+    <h2 class="text-xl font-bold tracking-tight">More from the blog</h2>
+    <div class="mt-8 grid gap-6 sm:grid-cols-3">
+      {% for other in other_posts %}
+        {% include "partials/blog_card.html" with post=other %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}

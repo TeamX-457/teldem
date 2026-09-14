@@ -1,0 +1,74 @@
+{% load static %}
+<header class="sticky top-0 z-50 border-b border-ink/5 bg-white/90 backdrop-blur">
+  <div class="container-teldem flex h-16 items-center justify-between">
+    <a href="{% url 'marketing:home' %}" class="flex items-center gap-2">
+      <img src="{% static 'img/logo.png' %}" alt="{{ SITE_NAME }}" class="h-8 w-auto">
+    </a>
+
+    <nav class="hidden items-center gap-7 lg:flex">
+      <a href="{% url 'marketing:solution' %}" class="nav-link">Solutions</a>
+      <a href="{% url 'marketing:how_it_works' %}" class="nav-link">How It Works</a>
+      <a href="{% url 'marketing:pricing' %}" class="nav-link">Pricing</a>
+      <a href="{% url 'marketing:business' %}" class="nav-link">For Business</a>
+      <a href="{% url 'marketing:about' %}" class="nav-link">About</a>
+      <a href="{% url 'marketing:blog_list' %}" class="nav-link">Blog</a>
+    </nav>
+
+    <div class="hidden items-center gap-3 lg:flex">
+      {% if user.is_authenticated %}
+        <a href="{% url 'dashboard:home' %}" class="btn-ghost btn-sm">Dashboard</a>
+        <a href="{% url 'accounts:logout' %}" class="btn-outline btn-sm">Log out</a>
+      {% else %}
+        <a href="{% url 'accounts:login' %}" class="btn-ghost btn-sm">Log in</a>
+        <a href="{% url 'marketing:contact' %}" class="btn-accent btn-sm">Request a Demo</a>
+        <a href="{% url 'accounts:signup' %}" class="btn-primary btn-sm">Get Started</a>
+      {% endif %}
+    </div>
+
+    <button id="mobile-menu-btn" type="button" class="inline-flex items-center justify-center rounded-md p-2 text-ink lg:hidden" aria-label="Toggle menu">
+      <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="hidden border-t border-ink/5 bg-white lg:hidden">
+    <div class="container-teldem flex flex-col gap-1 py-4">
+      <a href="{% url 'marketing:solution' %}" class="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft hover:bg-surface">Solutions</a>
+      <a href="{% url 'marketing:how_it_works' %}" class="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft hover:bg-surface">How It Works</a>
+      <a href="{% url 'marketing:pricing' %}" class="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft hover:bg-surface">Pricing</a>
+      <a href="{% url 'marketing:business' %}" class="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft hover:bg-surface">For Business</a>
+      <a href="{% url 'marketing:about' %}" class="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft hover:bg-surface">About</a>
+      <a href="{% url 'marketing:blog_list' %}" class="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft hover:bg-surface">Blog</a>
+      <a href="{% url 'marketing:contact' %}" class="rounded-lg px-3 py-2 text-sm font-medium text-ink-soft hover:bg-surface">Contact</a>
+      <div class="mt-3 flex flex-col gap-2 border-t border-ink/5 pt-3">
+        {% if user.is_authenticated %}
+          <a href="{% url 'dashboard:home' %}" class="btn-primary w-full">Dashboard</a>
+          <a href="{% url 'accounts:logout' %}" class="btn-outline w-full">Log out</a>
+        {% else %}
+          <a href="{% url 'accounts:login' %}" class="btn-outline w-full">Log in</a>
+          <a href="{% url 'accounts:signup' %}" class="btn-primary w-full">Get Started</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  (function () {
+    var btn = document.getElementById("mobile-menu-btn");
+    var menu = document.getElementById("mobile-menu");
+    var iconOpen = document.getElementById("icon-open");
+    var iconClose = document.getElementById("icon-close");
+    if (!btn || !menu) return;
+    btn.addEventListener("click", function () {
+      var isHidden = menu.classList.contains("hidden");
+      menu.classList.toggle("hidden");
+      iconOpen.classList.toggle("hidden", isHidden);
+      iconClose.classList.toggle("hidden", !isHidden);
+    });
+  })();
+</script>

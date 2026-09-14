@@ -1,0 +1,38 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ SITE_NAME }} — Smarter Spaces. Safer Lives.{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}TELDEM AI is a Nigerian smart-monitoring hardware and AI platform that senses, analyses and alerts you before problems happen — for your fridge, gas, vehicle, home and business.{% endblock %}">
+  <link rel="icon" href="{% static 'img/favicon.ico' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="flex min-h-screen flex-col bg-surface">
+  {% include "partials/navbar.html" %}
+
+  {% if messages %}
+    <div class="container-teldem mt-4 space-y-2">
+      {% for message in messages %}
+        <div class="flex items-start justify-between gap-3 rounded-lg border px-4 py-3 text-sm
+          {% if message.tags == 'success' %} border-teldem-green-100 bg-teldem-green-50 text-teldem-green-700
+          {% elif message.tags == 'error' %} border-red-100 bg-red-50 text-red-700
+          {% elif message.tags == 'warning' %} border-teldem-gold-50 bg-teldem-gold-50 text-teldem-gold-600
+          {% else %} border-teldem-blue-100 bg-teldem-blue-50 text-teldem-blue {% endif %}">
+          <span>{{ message }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <main class="flex-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include "partials/footer.html" %}
+</body>
+</html>

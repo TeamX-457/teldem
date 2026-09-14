@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% block title %}Solutions — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+
+<section class="section bg-white">
+  <div class="container-teldem max-w-3xl">
+    <span class="eyebrow">The solution</span>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+      One device, one platform, five ways it protects what matters.
+    </h1>
+    <p class="mt-5 text-lg text-ink-muted">
+      The TELDEM Smart AI Device pairs purpose-built sensors with a shared
+      AI platform. Every reading runs through the same pipeline —
+      Sense &rarr; Analyse &rarr; Understand &rarr; Inform &rarr; Act — tuned
+      to what it's watching over.
+    </p>
+  </div>
+</section>
+
+<section id="fridge" class="border-t border-ink/5 bg-surface">
+  <div class="container-teldem grid items-center gap-10 py-16 lg:grid-cols-2">
+    <div>
+      <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-teldem-blue-50 text-teldem-blue">
+        {% include "partials/icons/fridge.html" with cls="h-6 w-6" %}
+      </div>
+      <h2 class="mt-5 text-2xl font-bold tracking-tight">Smart Fridge</h2>
+      <p class="mt-3 text-ink-muted">
+        Continuous temperature and stock-level tracking that catches
+        spoilage risk hours or days before it becomes a loss — whether
+        it's a home refrigerator or a restaurant's walk-in.
+      </p>
+      <ul class="mt-5 space-y-2.5 text-sm text-ink-soft">
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-green" %} Real-time temperature monitoring with safe-range alerts</li>
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-green" %} Door-open detection to catch seal and habit issues</li>
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-green" %} Stock-level tracking for reorder planning</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        <span>Kitchen Fridge</span><span class="badge-green">Online</span>
+      </div>
+      <p class="mt-4 text-4xl font-bold text-ink">3.2<span class="text-lg font-medium text-ink-muted">°C</span></p>
+      <p class="mt-1 text-sm text-ink-muted">Safe range: 1–5°C</p>
+      <div class="mt-4 h-2 rounded-full bg-teldem-green-100">
+        <div class="h-2 w-2/3 rounded-full bg-teldem-green"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gas" class="border-t border-ink/5 bg-white">
+  <div class="container-teldem grid items-center gap-10 py-16 lg:grid-cols-2">
+    <div class="order-2 card lg:order-1">
+      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        <span>Cooking Gas Cylinder</span><span class="badge-gold">62%</span>
+      </div>
+      <p class="mt-4 text-4xl font-bold text-ink">~9 <span class="text-lg font-medium text-ink-muted">days left</span></p>
+      <p class="mt-1 text-sm text-ink-muted">Based on your usage pattern</p>
+      <div class="mt-4 h-2 rounded-full bg-teldem-gold-50">
+        <div class="h-2 w-[62%] rounded-full bg-teldem-gold"></div>
+      </div>
+    </div>
+    <div class="order-1 lg:order-2">
+      <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-teldem-gold-50 text-teldem-gold-600">
+        {% include "partials/icons/gas.html" with cls="h-6 w-6" %}
+      </div>
+      <h2 class="mt-5 text-2xl font-bold tracking-tight">Smart Gas</h2>
+      <p class="mt-3 text-ink-muted">
+        Real-time cylinder level tracking, so you're never caught out
+        mid-cook at home or mid-service in a commercial kitchen.
+      </p>
+      <ul class="mt-5 space-y-2.5 text-sm text-ink-soft">
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-green" %} Live percentage-remaining readings</li>
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-green" %} Early low-level warnings, not last-minute surprises</li>
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-green" %} Usage trends to plan refills and budgets</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="vehicle" class="border-t border-ink/5 bg-surface">
+  <div class="container-teldem grid items-center gap-10 py-16 lg:grid-cols-2">
+    <div>
+      <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-teldem-blue-50 text-teldem-blue">
+        {% include "partials/icons/vehicle.html" with cls="h-6 w-6" %}
+      </div>
+      <h2 class="mt-5 text-2xl font-bold tracking-tight">Smart Vehicle</h2>
+      <p class="mt-3 text-ink-muted">
+        Motion and impact detection that watches your car or fleet vehicle
+        while it's unattended, and tells you the moment something changes.
+      </p>
+      <ul class="mt-5 space-y-2.5 text-sm text-ink-soft">
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-green" %} Arm / disarm from the app, like a security system</li>
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-green" %} Motion and impact alerts sent instantly</li>
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-green" %} Location pings for fleet visibility</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        <span>Delivery Van 1</span><span class="badge-blue">Armed</span>
+      </div>
+      <p class="mt-4 text-2xl font-bold text-ink">No motion detected</p>
+      <p class="mt-1 text-sm text-ink-muted">Fleet Bay · Last check-in 2 min ago</p>
+    </div>
+  </div>
+</section>
+
+<section id="home-office" class="border-t border-ink/5 bg-white">
+  <div class="container-teldem grid items-center gap-10 py-16 lg:grid-cols-2">
+    <div class="order-2 card lg:order-1">
+      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wide text-ink-muted">
+        <span>Front Entrance</span><span class="badge-blue">Armed</span>
+      </div>
+      <div class="mt-4 grid grid-cols-3 gap-3 text-center text-xs font-medium text-ink-muted">
+        <div class="rounded-lg bg-teldem-green-50 p-3 text-teldem-green-700">Motion<br><span class="text-sm font-bold">Clear</span></div>
+        <div class="rounded-lg bg-teldem-green-50 p-3 text-teldem-green-700">Smoke<br><span class="text-sm font-bold">Clear</span></div>
+        <div class="rounded-lg bg-teldem-green-50 p-3 text-teldem-green-700">Door<br><span class="text-sm font-bold">Closed</span></div>
+      </div>
+    </div>
+    <div class="order-1 lg:order-2">
+      <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-teldem-green-50 text-teldem-green-700">
+        {% include "partials/icons/home.html" with cls="h-6 w-6" %}
+      </div>
+      <h2 class="mt-5 text-2xl font-bold tracking-tight">Smart Home / Office</h2>
+      <p class="mt-3 text-ink-muted">
+        Motion, smoke and door sensing across the spaces you care about
+        most — armed the way you'd expect a security system to work.
+      </p>
+      <ul class="mt-5 space-y-2.5 text-sm text-ink-soft">
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-green" %} Motion detection with arm/disarm scheduling</li>
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-green" %} Smoke detection escalated as a critical alert</li>
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-green" %} Door-open tracking for access awareness</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="alerts" class="border-t border-ink/5 bg-teldem-blue-700 text-white">
+  <div class="container-teldem grid items-center gap-10 py-16 lg:grid-cols-2">
+    <div>
+      <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 text-teldem-gold">
+        {% include "partials/icons/inform.html" with cls="h-6 w-6" %}
+      </div>
+      <h2 class="mt-5 text-2xl font-bold tracking-tight">AI Alerts</h2>
+      <p class="mt-3 text-white/70">
+        Every device feeds the same alert engine. Alerts are scored by
+        severity, de-duplicated so you're never spammed, and delivered in
+        plain language — with critical alerts escalated immediately.
+      </p>
+      <ul class="mt-5 space-y-2.5 text-sm text-white/80">
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-gold" %} Info, warning and critical severity levels</li>
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-gold" %} One-click resolve from your alerts inbox</li>
+        <li class="flex gap-2">{% include "partials/icons/check.html" with cls="h-5 w-5 text-teldem-gold" %} Email notification stub for critical events</li>
+      </ul>
+    </div>
+    <div class="space-y-3">
+      <div class="rounded-xl2 border border-white/10 bg-white/5 p-4">
+        <div class="flex items-center justify-between">
+          <span class="badge-red">Critical</span>
+          <span class="text-xs text-white/50">2 min ago</span>
+        </div>
+        <p class="mt-2 text-sm font-medium text-white">Cold Room Gas Bank: Gas level is below the safe minimum.</p>
+      </div>
+      <div class="rounded-xl2 border border-white/10 bg-white/5 p-4">
+        <div class="flex items-center justify-between">
+          <span class="badge-gold">Warning</span>
+          <span class="text-xs text-white/50">14 min ago</span>
+        </div>
+        <p class="mt-2 text-sm font-medium text-white">Bar Fridge: Door triggered.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-surface text-center">
+  <div class="container-teldem">
+    <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">See the full Sense &rarr; Act pipeline</h2>
+    <div class="mt-6">
+      <a href="{% url 'marketing:how_it_works' %}" class="btn-primary">How It Works &rarr;</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

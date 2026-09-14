@@ -1,0 +1,57 @@
+{% extends "app_base.html" %}
+{% load humanize %}
+{% block title %}Billing — {{ SITE_NAME }}{% endblock %}
+{% block app_title %}Billing{% endblock %}
+
+{% block app_content %}
+<div class="space-y-8">
+  <div class="card">
+    <h2 class="text-base font-semibold text-ink">Current plan</h2>
+    {% if subscription %}
+      <div class="mt-4 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <p class="text-xl font-bold text-ink">{{ subscription.plan.name }}</p>
+          <p class="text-sm text-ink-muted">
+            {% if subscription.status == "active" %}<span class="badge-green">Active</span>
+            {% elif subscription.status == "trialing" %}<span class="badge-blue">Trial</span>
+            {% else %}<span class="badge-gray">{{ subscription.get_status_display }}</span>{% endif %}
+            {% if subscription.current_period_end %} &middot; renews {{ subscription.current_period_end|date:"M j, Y" }}{% endif %}
+          </p>
+        </div>
+        {% if subscription.plan.price_monthly %}
+          <p class="text-2xl font-bold text-ink">&#8358;{{ subscription.plan.price_monthly|floatformat:0|intcomma }}<span class="text-sm font-medium text-ink-muted">/mo</span></p>
+        {% endif %}
+      </div>
+    {% else %}
+      <p class="mt-3 text-sm text-ink-muted">You're not on a plan yet.</p>
+    {% endif %}
+  </div>
+
+  <div>
+    <h2 class="text-base font-semibold text-ink">Available plans</h2>
+    <div class="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {% for plan in plans %}
+        <div class="card flex flex-col {% if subscription.plan_id == plan.id %}border-2 border-teldem-blue{% endif %}">
+          <h3 class="font-semibold text-ink">{{ plan.name }}</h3>
+          <p class="mt-1 text-xs text-ink-muted">{{ plan.tagline }}</p>
+          <div class="mt-4">
+            {% if plan.is_contact_sales %}
+              <p class="text-xl font-bold text-ink">Custom</p>
+            {% else %}
+              <p class="text-xl font-bold text-ink">&#8358;{{ plan.price_monthly|floatformat:0|intcomma }}<span class="text-xs font-medium text-ink-muted">/mo</span></p>
+            {% endif %}
+          </div>
+          <div class="mt-4 flex-1"></div>
+          {% if subscription.plan_id == plan.id %}
+            <span class="btn-outline btn-sm w-full cursor-default text-center">Current plan</span>
+          {% elif plan.is_contact_sales %}
+            <a href="{% url 'marketing:contact' %}?interest=b2b" class="btn-outline btn-sm w-full text-center">Talk to Sales</a>
+          {% else %}
+            <a href="{% url 'billing:subscribe' plan.slug %}" class="btn-primary btn-sm w-full text-center">Choose plan</a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "app_base.html" %}
+{% load widget_tweaks %}
+{% block title %}Profile — {{ SITE_NAME }}{% endblock %}
+{% block app_title %}Profile{% endblock %}
+
+{% block app_content %}
+<div class="grid gap-6 lg:grid-cols-2">
+  <form method="post" class="card space-y-5">
+    {% csrf_token %}
+    <h2 class="text-base font-semibold text-ink">Your details</h2>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div>
+        <label class="field-label" for="{{ form.first_name.id_for_label }}">First name</label>
+        {% render_field form.first_name class="field-input" %}
+      </div>
+      <div>
+        <label class="field-label" for="{{ form.last_name.id_for_label }}">Last name</label>
+        {% render_field form.last_name class="field-input" %}
+      </div>
+    </div>
+    <div>
+      <label class="field-label" for="{{ form.email.id_for_label }}">Email</label>
+      {% render_field form.email class="field-input" %}
+    </div>
+    <div>
+      <label class="field-label" for="{{ form.phone_number.id_for_label }}">Phone</label>
+      {% render_field form.phone_number class="field-input" %}
+    </div>
+    {% if not org_form %}
+      <button type="submit" class="btn-primary">Save changes</button>
+    {% endif %}
+
+    {% if org_form %}
+      <h2 class="pt-2 text-base font-semibold text-ink">Organization</h2>
+      <div>
+        <label class="field-label" for="{{ org_form.name.id_for_label }}">Organization name</label>
+        {% render_field org_form.name class="field-input" %}
+      </div>
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label class="field-label" for="{{ org_form.industry.id_for_label }}">Industry</label>
+          {% render_field org_form.industry class="field-input" %}
+        </div>
+        <div>
+          <label class="field-label" for="{{ org_form.contact_phone.id_for_label }}">Contact phone</label>
+          {% render_field org_form.contact_phone class="field-input" %}
+        </div>
+      </div>
+      <div>
+        <label class="field-label" for="{{ org_form.address.id_for_label }}">Address</label>
+        {% render_field org_form.address class="field-input" %}
+      </div>
+      <button type="submit" class="btn-primary">Save changes</button>
+    {% endif %}
+  </form>
+
+  <div class="card h-fit">
+    <h2 class="text-base font-semibold text-ink">Account</h2>
+    <dl class="mt-4 space-y-3 text-sm">
+      <div class="flex justify-between"><dt class="text-ink-muted">Account type</dt><dd class="font-medium text-ink">{{ user.get_account_type_display }}</dd></div>
+      <div class="flex justify-between"><dt class="text-ink-muted">Username</dt><dd class="font-medium text-ink">{{ user.username }}</dd></div>
+      {% if membership %}
+        <div class="flex justify-between"><dt class="text-ink-muted">Role</dt><dd class="font-medium text-ink">{{ membership.get_role_display }}</dd></div>
+      {% endif %}
+      <div class="flex justify-between"><dt class="text-ink-muted">Member since</dt><dd class="font-medium text-ink">{{ user.created_at|date:"M Y" }}</dd></div>
+    </dl>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% load static %}
+<div class="card flex flex-col gap-4 transition-shadow hover:shadow-card-hover">
+  <div class="flex h-11 w-11 items-center justify-center rounded-lg
+    {% if color == 'gold' %} bg-teldem-gold-50 text-teldem-gold-600
+    {% elif color == 'green' %} bg-teldem-green-50 text-teldem-green-700
+    {% else %} bg-teldem-blue-50 text-teldem-blue {% endif %}">
+    {% include "partials/icons/"|add:icon|add:".html" with cls="h-5 w-5" %}
+  </div>
+  <div>
+    <h3 class="text-base font-semibold text-ink">{{ title }}</h3>
+    <p class="mt-1.5 text-sm text-ink-muted">{{ copy }}</p>
+  </div>
+</div>

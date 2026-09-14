@@ -1,0 +1,46 @@
+{% extends "app_base.html" %}
+{% load widget_tweaks %}
+{% block title %}Team — {{ SITE_NAME }}{% endblock %}
+{% block app_title %}Team &middot; {{ organization.name }}{% endblock %}
+
+{% block app_content %}
+<div class="grid gap-6 lg:grid-cols-3">
+  <div class="card lg:col-span-2">
+    <h2 class="text-base font-semibold text-ink">Members</h2>
+    <table class="table-teldem mt-4">
+      <thead>
+        <tr><th>Member</th><th>Email</th><th>Role</th><th>Joined</th></tr>
+      </thead>
+      <tbody>
+        {% for member in members %}
+          <tr>
+            <td class="font-medium text-ink">{{ member.user.get_full_name|default:member.user.username }}</td>
+            <td>{{ member.user.email }}</td>
+            <td><span class="badge-blue">{{ member.get_role_display }}</span></td>
+            <td>{{ member.joined_at|date:"M j, Y" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if can_manage %}
+    <div class="card h-fit">
+      <h2 class="text-base font-semibold text-ink">Invite a member</h2>
+      <p class="mt-1 text-xs text-ink-muted">They'll need a TELDEM account with this email first.</p>
+      <form method="post" class="mt-4 space-y-4">
+        {% csrf_token %}
+        <div>
+          <label class="field-label" for="{{ form.email.id_for_label }}">Email</label>
+          {% render_field form.email class="field-input" %}
+        </div>
+        <div>
+          <label class="field-label" for="{{ form.role.id_for_label }}">Role</label>
+          {% render_field form.role class="field-input" %}
+        </div>
+        <button type="submit" class="btn-primary w-full">Add to team</button>
+      </form>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

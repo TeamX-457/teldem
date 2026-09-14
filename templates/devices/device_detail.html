@@ -1,0 +1,167 @@
+{% extends "app_base.html" %}
+{% load device_extras %}
+{% load dict_extras %}
+{% block title %}{{ device.name }} — {{ SITE_NAME }}{% endblock %}
+{% block app_title %}{{ device.name }}{% endblock %}
+{% block app_actions %}
+  {% if device.is_security_capable %}
+    <form method="post" action="{% url 'devices:toggle_armed' device.pk %}">
+      {% csrf_token %}
+      {% if device.is_armed %}
+        <button type="submit" class="btn-outline btn-sm">Disarm</button>
+      {% else %}
+        <button type="submit" class="btn-accent btn-sm">Arm</button>
+      {% endif %}
+    </form>
+  {% endif %}
+  <a href="{% url 'devices:update' device.pk %}" class="btn-outline btn-sm">Edit</a>
+{% endblock %}
+
+{% block app_content %}
+<div class="space-y-8">
+
+  <div class="card flex flex-wrap items-center gap-6">
+    <div class="flex h-14 w-14 items-center justify-center rounded-lg bg-teldem-blue-50 text-teldem-blue">
+      {% with icon=device.device_type|device_icon %}
+        {% include "partials/icons/"|add:icon|add:".html" with cls="h-7 w-7" %}
+      {% endwith %}
+    </div>
+    <div class="flex-1">
+      <p class="text-sm text-ink-muted">{{ device.type_label }} &middot; {{ device.location_label|default:"No location set" }}</p>
+      <p class="text-xs text-ink-muted">Owner: {{ device.owner_display }} &middot; Installed {{ device.install_date|date:"M j, Y" }} &middot; Pairing code: <span class="font-mono">{{ device.pairing_code }}</span></p>
+    </div>
+    <div class="flex gap-2">
+      {% if device.status == "online" %}<span class="badge-green">Online</span>{% else %}<span class="badge-gray">{{ device.get_status_display }}</span>{% endif %}
+      {% if device.is_security_capable %}
+        {% if device.is_armed %}<span class="badge-blue">Armed</span>{% else %}<span class="badge-gray">Disarmed</span>{% endif %}
+      {% endif %}
+    </div>
+  </div>
+
+  <div>
+    <h2 class="text-base font-semibold text-ink">Latest readings</h2>
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {% for metric, cfg in metrics.items %}
+        {% with reading=latest_readings|get_item:metric %}
+        <div class="card">
+          <p class="text-xs font-semibold uppercase tracking-wide text-ink-muted">{{ cfg.label }}</p>
+          {% if reading %}
+            {% if cfg.kind == "location" %}
+              <p class="mt-2 text-lg font-bold text-ink">{{ reading.unit }}</p>
+              <p class="text-xs text-ink-muted">Last ping {{ reading.timestamp|timesince }} ago</p>
+            {% elif cfg.kind == "binary" %}
+              {% if reading.value == 1 %}
+                <p class="mt-2 text-lg font-bold text-red-600">Triggered</p>
+              {% else %}
+                <p class="mt-2 text-lg font-bold text-teldem-green-700">Clear</p>
+              {% endif %}
+              <p class="text-xs text-ink-muted">Updated {{ reading.timestamp|timesince }} ago</p>
+            {% else %}
+              <p class="mt-2 text-lg font-bold text-ink">{{ reading.value|floatformat:1 }}{{ cfg.unit }}</p>
+              <p class="text-xs text-ink-muted">Updated {{ reading.timestamp|timesince }} ago</p>
+            {% endif %}
+          {% else %}
+            <p class="mt-2 text-sm text-ink-muted">No readings yet</p>
+          {% endif %}
+        </div>
+        {% endwith %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <div>
+    <h2 class="text-base font-semibold text-ink">History</h2>
+    <div id="charts" class="mt-4 grid gap-4 lg:grid-cols-2"></div>
+  </div>
+
+  <div>
+    <h2 class="text-base font-semibold text-ink">Recent alerts</h2>
+    <div class="card mt-4 overflow-x-auto p-0">
+      <table class="table-teldem">
+        <thead><tr><th>Severity</th><th>Message</th><th>Status</th><th>Raised</th><th></th></tr></thead>
+        <tbody>
+          {% for alert in alerts %}
+            <tr>
+              <td>
+                {% if alert.severity == "critical" %}<span class="badge-red">Critical</span>
+                {% elif alert.severity == "warning" %}<span class="badge-gold">Warning</span>
+                {% else %}<span class="badge-blue">Info</span>{% endif %}
+              </td>
+              <td>{{ alert.message }}</td>
+              <td>{% if alert.is_resolved %}<span class="badge-green">Resolved</span>{% else %}<span class="badge-gray">Open</span>{% endif %}</td>
+              <td>{{ alert.created_at|timesince }} ago</td>
+              <td>
+                {% if not alert.is_resolved %}
+                  <form method="post" action="{% url 'alerts:resolve' alert.pk %}">{% csrf_token %}<button class="btn-ghost btn-sm">Resolve</button></form>
+                {% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="5" class="text-center text-ink-muted">No alerts for this device yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="border-t border-ink/10 pt-6">
+    <a href="{% url 'devices:delete' device.pk %}" class="text-sm font-medium text-red-600 hover:underline">Remove this device</a>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script>
+  (function () {
+    var chartData = {{ chart_data_json|safe }};
+    var container = document.getElementById("charts");
+    var colors = { blue: "#1B4F91", green: "#2E9E44", gold: "#F5A623" };
+    var i = 0;
+    Object.keys(chartData).forEach(function (metric) {
+      var cfg = chartData[metric];
+      if (!cfg.points.length) return;
+      var wrap = document.createElement("div");
+      wrap.className = "card";
+      var title = document.createElement("p");
+      title.className = "text-xs font-semibold uppercase tracking-wide text-ink-muted mb-3";
+      title.textContent = cfg.label + (cfg.unit && cfg.unit !== "state" ? " (" + cfg.unit + ")" : "");
+      wrap.appendChild(title);
+      var canvas = document.createElement("canvas");
+      canvas.height = 180;
+      wrap.appendChild(canvas);
+      container.appendChild(wrap);
+
+      var color = [colors.blue, colors.green, colors.gold][i % 3];
+      i++;
+
+      new Chart(canvas.getContext("2d"), {
+        type: "line",
+        data: {
+          labels: cfg.points.map(function (p) { return new Date(p.t).toLocaleString(); }),
+          datasets: [{
+            label: cfg.label,
+            data: cfg.points.map(function (p) { return p.v; }),
+            borderColor: color,
+            backgroundColor: color + "22",
+            fill: cfg.kind === "gauge",
+            stepped: cfg.kind === "binary",
+            tension: 0.3,
+            pointRadius: 0,
+            borderWidth: 2,
+          }],
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { display: false },
+            y: cfg.kind === "binary" ? { min: 0, max: 1, ticks: { stepSize: 1 } } : {},
+          },
+        },
+      });
+    });
+    if (!container.children.length) {
+      container.innerHTML = '<p class="text-sm text-ink-muted">No history yet — run the simulator to generate readings.</p>';
+    }
+  })();
+</script>
+{% endblock %}

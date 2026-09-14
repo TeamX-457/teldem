@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Welcome — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+
+<section class="section bg-surface">
+  <div class="container-teldem flex justify-center">
+    <div class="w-full max-w-xl text-center">
+      <span class="eyebrow">Step 2 of 2</span>
+      <h1 class="mt-4 text-3xl font-bold tracking-tight">Let's get your first device online</h1>
+      <p class="mt-3 text-ink-muted">
+        Register a TELDEM Smart AI Device to start seeing simulated
+        readings and alerts right away. You can always add more later.
+      </p>
+
+      <div class="card mt-8 text-left">
+        {% if device_count %}
+          <div class="flex items-center gap-3">
+            {% include "partials/icons/check.html" with cls="h-6 w-6 text-teldem-green" %}
+            <p class="font-medium text-ink">You already have {{ device_count }} device{{ device_count|pluralize }} registered.</p>
+          </div>
+        {% else %}
+          <p class="text-sm text-ink-muted">You haven't registered a device yet.</p>
+        {% endif %}
+
+        <a href="{% url 'devices:register' %}" class="btn-primary mt-5 w-full">
+          {% if device_count %}Register another device{% else %}Register your first device{% endif %}
+        </a>
+
+        <form method="post" class="mt-3">
+          {% csrf_token %}
+          <button type="submit" class="btn-outline w-full">
+            {% if device_count %}Continue to dashboard{% else %}Skip for now{% endif %}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

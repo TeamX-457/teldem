@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Page not found — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="section bg-white text-center">
+  <div class="container-teldem max-w-lg">
+    <p class="text-sm font-mono font-semibold text-teldem-blue">404</p>
+    <h1 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">We couldn't sense a page there.</h1>
+    <p class="mt-4 text-ink-muted">The page you're looking for doesn't exist or may have moved.</p>
+    <a href="{% url 'marketing:home' %}" class="btn-primary mt-8 inline-flex">Back to Home</a>
+  </div>
+</section>
+{% endblock %}

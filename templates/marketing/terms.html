@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Terms of Service — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+
+<section class="section bg-white">
+  <div class="container-teldem max-w-3xl">
+    <span class="eyebrow">Legal</span>
+    <h1 class="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Terms of Service</h1>
+    <p class="mt-4 text-sm text-ink-muted">Last updated: {% now "F Y" %}</p>
+
+    <div class="mt-8 space-y-6 text-sm leading-relaxed text-ink-soft">
+      <p>
+        This is a placeholder Terms of Service for demonstration purposes.
+        Before launch, replace this page with terms reviewed by qualified
+        counsel, covering device sales, subscription billing, acceptable
+        use, warranty and liability limitations.
+      </p>
+      <h2 class="text-lg font-semibold text-ink">Use of the platform</h2>
+      <p>By creating an account, you agree to use TELDEM AI devices and the platform lawfully and as intended.</p>
+      <h2 class="text-lg font-semibold text-ink">Subscriptions</h2>
+      <p>Subscription plans renew monthly unless canceled. Device purchases are one-time and separate from the AI subscription.</p>
+      <h2 class="text-lg font-semibold text-ink">Contact</h2>
+      <p>Questions about these terms can be sent to <a href="mailto:legal@teldem.ai" class="text-teldem-blue hover:underline">legal@teldem.ai</a>.</p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

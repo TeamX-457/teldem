@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Blog & Updates — {{ SITE_NAME }}{% endblock %}
+{% block content %}
+
+<section class="section bg-white">
+  <div class="container-teldem max-w-3xl">
+    <span class="eyebrow">Blog</span>
+    <h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">Updates from TELDEM</h1>
+    <p class="mt-5 text-lg text-ink-muted">Product news, field stories, and how-tos from the team building TELDEM AI.</p>
+  </div>
+</section>
+
+<section class="pb-20 bg-white">
+  <div class="container-teldem">
+    {% if posts %}
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {% for post in posts %}
+          {% include "partials/blog_card.html" with post=post %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="card text-center text-ink-muted">No posts published yet — check back soon.</div>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

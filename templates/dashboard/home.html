@@ -1,0 +1,120 @@
+{% extends "app_base.html" %}
+{% load device_extras %}
+{% block title %}Dashboard — {{ SITE_NAME }}{% endblock %}
+{% block app_title %}Welcome back{% if request.user.first_name %}, {{ request.user.first_name }}{% endif %}{% endblock %}
+{% block app_actions %}
+  <a href="{% url 'devices:register' %}" class="btn-primary btn-sm">+ Register device</a>
+{% endblock %}
+
+{% block app_content %}
+<div class="space-y-8">
+
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="stat-tile">
+      <p class="text-xs font-semibold uppercase tracking-wide text-ink-muted">Devices</p>
+      <p class="text-2xl font-bold text-ink">{{ device_count }}</p>
+    </div>
+    <div class="stat-tile">
+      <p class="text-xs font-semibold uppercase tracking-wide text-ink-muted">Online</p>
+      <p class="text-2xl font-bold text-teldem-green-700">{{ online_count }}</p>
+    </div>
+    <div class="stat-tile">
+      <p class="text-xs font-semibold uppercase tracking-wide text-ink-muted">Open alerts</p>
+      <p class="text-2xl font-bold {% if open_alert_count %}text-red-600{% else %}text-ink{% endif %}">{{ open_alert_count }}</p>
+    </div>
+    <div class="stat-tile">
+      <p class="text-xs font-semibold uppercase tracking-wide text-ink-muted">Plan</p>
+      <p class="text-2xl font-bold text-ink">{{ subscription.plan.name|default:"None" }}</p>
+    </div>
+  </div>
+
+  {% if open_alerts %}
+    <div>
+      <div class="flex items-center justify-between">
+        <h2 class="text-base font-semibold text-ink">Open alerts</h2>
+        <a href="{% url 'alerts:inbox' %}" class="btn-ghost btn-sm">View all &rarr;</a>
+      </div>
+      <div class="mt-4 space-y-3">
+        {% for alert in open_alerts %}
+          <div class="card flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              {% if alert.severity == "critical" %}<span class="badge-red">Critical</span>
+              {% elif alert.severity == "warning" %}<span class="badge-gold">Warning</span>
+              {% else %}<span class="badge-blue">Info</span>{% endif %}
+              <div>
+                <p class="text-sm font-medium text-ink">{{ alert.message }}</p>
+                <p class="text-xs text-ink-muted">{{ alert.device.name }} &middot; {{ alert.created_at|timesince }} ago</p>
+              </div>
+            </div>
+            <form method="post" action="{% url 'alerts:resolve' alert.pk %}"><input type="hidden" name="next" value="{% url 'dashboard:home' %}">{% csrf_token %}<button class="btn-ghost btn-sm">Resolve</button></form>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <div>
+    <h2 class="text-base font-semibold text-ink">Device status</h2>
+    {% if device_status_grid %}
+      <div class="mt-4 space-y-6">
+        {% for group in device_status_grid %}
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-wide text-ink-muted">{{ group.label }}</p>
+            <div class="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {% for device in group.devices %}
+                <a href="{% url 'devices:detail' device.pk %}" class="card flex items-center justify-between transition-shadow hover:shadow-card-hover">
+                  <div>
+                    <p class="font-medium text-ink">{{ device.name }}</p>
+                    <p class="text-xs text-ink-muted">{{ device.location_label|default:"—" }}</p>
+                  </div>
+                  {% if device.status == "online" %}<span class="badge-green">Online</span>{% else %}<span class="badge-gray">Offline</span>{% endif %}
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="card mt-4 text-center text-ink-muted">No devices yet. <a href="{% url 'devices:register' %}" class="font-medium text-teldem-blue hover:underline">Register one &rarr;</a></div>
+    {% endif %}
+  </div>
+
+  <div>
+    <h2 class="text-base font-semibold text-ink">Recent activity</h2>
+    <div class="card mt-4 divide-y divide-ink/5 p-0">
+      {% for alert in recent_alerts %}
+        <div class="flex items-center justify-between gap-4 px-5 py-4">
+          <div>
+            <p class="text-sm text-ink">{{ alert.message }}</p>
+            <p class="text-xs text-ink-muted">{{ alert.device.name }}</p>
+          </div>
+          <span class="text-xs text-ink-muted">{{ alert.created_at|timesince }} ago</span>
+        </div>
+      {% empty %}
+        <p class="px-5 py-6 text-center text-sm text-ink-muted">No recent activity yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if organization %}
+    <div>
+      <div class="flex items-center justify-between">
+        <h2 class="text-base font-semibold text-ink">Team activity &middot; {{ organization.name }}</h2>
+        <a href="{% url 'accounts:team' %}" class="btn-ghost btn-sm">Manage team &rarr;</a>
+      </div>
+      <div class="card mt-4 divide-y divide-ink/5 p-0">
+        {% for member in team_activity %}
+          <div class="flex items-center justify-between gap-4 px-5 py-4">
+            <div>
+              <p class="text-sm font-medium text-ink">{{ member.user.get_full_name|default:member.user.username }}</p>
+              <p class="text-xs text-ink-muted">{{ member.user.email }}</p>
+            </div>
+            <span class="badge-blue">{{ member.get_role_display }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

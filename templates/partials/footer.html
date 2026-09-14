@@ -1,0 +1,63 @@
+{% load static %}
+<footer class="border-t border-ink/5 bg-ink text-white/80">
+  <div class="container-teldem grid grid-cols-2 gap-10 py-14 sm:grid-cols-2 lg:grid-cols-5">
+    <div class="col-span-2">
+      <img src="{% static 'img/logo.png' %}" alt="{{ SITE_NAME }}" class="h-8 w-auto brightness-0 invert">
+      <p class="mt-4 max-w-sm text-sm text-white/60">
+        AI that Sees. Thinks. Protects. Informs. TELDEM Technologies builds
+        affordable smart-monitoring hardware and AI for African homes and
+        businesses.
+      </p>
+      <p class="mt-4 text-sm font-semibold text-teldem-gold">
+        We don't just measure. We tell them.
+      </p>
+      <div class="mt-6 flex gap-3">
+        {% for label in "XFIL" %}
+          <a href="#" class="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-xs text-white/70 hover:border-teldem-gold hover:text-teldem-gold">{{ label }}</a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div>
+      <h4 class="text-sm font-semibold text-white">Product</h4>
+      <ul class="mt-4 space-y-2.5 text-sm text-white/60">
+        <li><a href="{% url 'marketing:solution' %}" class="hover:text-white">Smart Fridge</a></li>
+        <li><a href="{% url 'marketing:solution' %}" class="hover:text-white">Smart Gas</a></li>
+        <li><a href="{% url 'marketing:solution' %}" class="hover:text-white">Smart Vehicle</a></li>
+        <li><a href="{% url 'marketing:solution' %}" class="hover:text-white">Smart Home / Office</a></li>
+        <li><a href="{% url 'marketing:how_it_works' %}" class="hover:text-white">How It Works</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="text-sm font-semibold text-white">Company</h4>
+      <ul class="mt-4 space-y-2.5 text-sm text-white/60">
+        <li><a href="{% url 'marketing:about' %}" class="hover:text-white">About &amp; Vision</a></li>
+        <li><a href="{% url 'marketing:business' %}" class="hover:text-white">For Business</a></li>
+        <li><a href="{% url 'marketing:blog_list' %}" class="hover:text-white">Blog</a></li>
+        <li><a href="{% url 'marketing:careers' %}" class="hover:text-white">Careers</a></li>
+        <li><a href="{% url 'marketing:faq' %}" class="hover:text-white">FAQ</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="text-sm font-semibold text-white">Get in touch</h4>
+      <ul class="mt-4 space-y-2.5 text-sm text-white/60">
+        <li><a href="{% url 'marketing:contact' %}" class="hover:text-white">Request a Demo</a></li>
+        <li><a href="mailto:hello@teldem.ai" class="hover:text-white">hello@teldem.ai</a></li>
+        <li><a href="tel:+2340000000000" class="hover:text-white">+234 (0) 000 000 0000</a></li>
+        <li>Lagos, Nigeria</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="container-teldem flex flex-col items-center justify-between gap-3 py-5 text-xs text-white/50 sm:flex-row">
+      <p>&copy; {% now "Y" %} TELDEM Technologies. All rights reserved.</p>
+      <div class="flex gap-5">
+        <a href="{% url 'marketing:privacy' %}" class="hover:text-white">Privacy Policy</a>
+        <a href="{% url 'marketing:terms' %}" class="hover:text-white">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>

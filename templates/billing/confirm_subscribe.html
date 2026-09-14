@@ -1,0 +1,23 @@
+{% extends "app_base.html" %}
+{% load humanize %}
+{% block title %}Confirm plan — {{ SITE_NAME }}{% endblock %}
+{% block app_title %}Confirm your plan{% endblock %}
+
+{% block app_content %}
+<div class="mx-auto max-w-lg card">
+  <h2 class="text-lg font-semibold text-ink">Switch to {{ plan.name }}?</h2>
+  <p class="mt-2 text-sm text-ink-muted">{{ plan.tagline }}</p>
+  {% if plan.price_monthly %}
+    <p class="mt-4 text-2xl font-bold text-ink">&#8358;{{ plan.price_monthly|floatformat:0|intcomma }}<span class="text-sm font-medium text-ink-muted">/mo</span></p>
+  {% endif %}
+  <div class="mt-4 rounded-lg bg-teldem-blue-50 p-3 text-xs text-teldem-blue">
+    This is a simulated checkout for demo purposes — no real payment will
+    be taken. A production build would integrate Paystack or Flutterwave here.
+  </div>
+  <form method="post" class="mt-6 flex gap-3">
+    {% csrf_token %}
+    <button type="submit" class="btn-primary">Confirm &amp; activate</button>
+    <a href="{% url 'billing:overview' %}" class="btn-outline">Cancel</a>
+  </form>
+</div>
+{% endblock %}
