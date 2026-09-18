@@ -40,6 +40,18 @@ SECRET_KEY = os.environ.get(
 DEBUG = env_bool("DJANGO_DEBUG", default=True)
 
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
+CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", "")
+
+# Render sets this automatically for every web service (e.g. "tldem-udly.onrender.com") —
+# trust it without requiring DJANGO_ALLOWED_HOSTS to be kept in sync by hand, and without
+# breaking if Render ever reassigns the subdomain.
+_render_host = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+if _render_host:
+    if _render_host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_render_host)
+    _render_origin = f"https://{_render_host}"
+    if _render_origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(_render_origin)
 
 SITE_NAME = os.environ.get("SITE_NAME", "TELDEM AI")
 SITE_DOMAIN = os.environ.get("SITE_DOMAIN", "localhost:8000")
