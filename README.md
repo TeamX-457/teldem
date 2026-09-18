@@ -61,6 +61,28 @@ copy .env.example .env         # Windows
 extra configuration**. To use Postgres instead, set `DATABASE_URL` in
 `.env` (e.g. `postgres://user:pass@localhost:5432/teldem`).
 
+### Postgres (shared dev database)
+
+Local dev currently points at a shared Neon Postgres instance also used
+by other projects on this machine (e.g. "caster"). To avoid table-name
+collisions (both are Django apps with an `accounts.User` model, etc.),
+TELDEM's tables live in their own **Postgres schema** (`teldem`) inside
+that shared database rather than the default `public` schema — see the
+`DATABASES` block in `config/settings.py`, which appends
+`-c search_path=teldem,public` to the connection options whenever
+`DATABASE_URL` points at Postgres.
+
+Two things to know if you touch this:
+
+- **Use Neon's unpooled (direct) host**, not the `-pooler` one. Neon's
+  PgBouncer pooler rejects the `search_path` startup parameter this
+  relies on (`unsupported startup parameter in options: search_path`) —
+  Neon's own fix is to use the direct connection for anything that needs
+  session-level parameters like this.
+- This shared database is for **development convenience only**. Before
+  a real deployment, point `DATABASE_URL` at a dedicated Postgres
+  database for TELDEM (Neon or otherwise) rather than this shared one.
+
 ### Frontend (Tailwind)
 
 ```bash

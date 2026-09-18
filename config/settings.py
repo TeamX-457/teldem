@@ -111,6 +111,14 @@ if DATABASE_URL:
     DATABASES = {
         "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)
     }
+    # When DATABASE_URL points at Postgres, all of TELDEM's tables
+    # (including django_migrations, contenttypes, sessions, etc.) live in
+    # the `teldem` schema rather than `public`. This lets this project
+    # safely share one physical Postgres database/instance with other,
+    # unrelated Django projects (e.g. a shared Neon dev database) without
+    # their tables or migration history colliding with ours.
+    if DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
+        DATABASES["default"].setdefault("OPTIONS", {})["options"] = "-c search_path=teldem,public"
 else:
     DATABASES = {
         "default": {
